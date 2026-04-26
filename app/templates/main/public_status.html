@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white text-center py-3">
+                <h3 class="mb-0">Traffic Violation Status</h3>
+            </div>
+            <div class="card-body p-4">
+                <div class="row mb-4 text-center">
+                    <div class="col-12">
+                        {% if violation.status == 'Paid' %}
+                        <div class="alert alert-success d-inline-block px-5">
+                            <h4 class="mb-0">Status: PAID</h4>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-danger d-inline-block px-5">
+                            <h4 class="mb-0">Status: UNPAID</h4>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th class="w-25 bg-light">Violation ID</th>
+                            <td>#{{ violation.id }}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Vehicle Number</th>
+                            <td><strong class="fs-5">{{ violation.vehicle_number }}</strong></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Type</th>
+                            <td>{{ violation.violation_type }}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Location</th>
+                            <td>{{ violation.location }}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Date & Time</th>
+                            <td>{{ violation.date.strftime('%B %d, %Y at %I:%M %p') }}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Fine Amount</th>
+                            <td class="fs-5 text-danger fw-bold">${{ "%.2f"|format(violation.fine_amount) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% if violation.status == 'Unpaid' %}
+            <div class="card-footer bg-light text-center py-3">
+                <p class="mb-2 text-muted">Please contact the traffic department to settle this fine.</p>
+                <!-- Integration for payment gateway can be added here -->
+                <button class="btn btn-success px-4 disabled">Pay Now (Coming Soon)</button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
